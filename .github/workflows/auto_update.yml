@@ -1,4 +1,4 @@
-name: Merge upstream branches
+name: auto_update_rule
 on:
   schedule:
     - cron:  '0 10 * * *'
@@ -9,7 +9,8 @@ jobs:
     steps:
       - name: Merge upstream
         run: |
-          git remote add upstream https://github.com/blackmatrix7/ios_rule_script.git
-          git fetch upstream
-          git merge upstream/master
-          git push origin master         
+          git clone https://github.com/blackmatrix7/ios_rule_script.git temp
+          cd temp 
+          git remote add upstream https://github.com/halfteas/Rule_Script.git
+          git pull origin master
+          git push upstream master         
