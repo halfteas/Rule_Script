@@ -11,8 +11,8 @@ jobs:
         run: |
           git config --global user.name 'halfteas'
           git config --global user.email 'halfteas@outlook.com'
-          git clone https://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@github.com/halfteas/Rule_Script.git temp
+          git clone  https://github.com/blackmatrix7/ios_rule_script.git temp
           cd temp 
-          git remote add upstream https://github.com/blackmatrix7/ios_rule_script.git
-          git pull --rebase upstream master
-          git push origin master         
+          git remote add upstream https://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@github.com/halfteas/Rule_Script.git
+          git pull --rebase origin master
+          git push upstream master         
