@@ -1,0 +1,26 @@
+name: Sync Repo A to Repo B
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天午夜执行
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo B
+        uses: actions/checkout@v2
+        with:
+          repository: 'halfteas/Rule_Script'
+          token: ${{ secrets.SURGE_TOKEN }}
+
+      - name: Pull Repo changes from Repo A
+        run: |
+          git remote add upstream https://github.com/blackmatrix7/ios_rule_script.git
+          git fetch upstream
+          git checkout main
+          git merge upstream/main
+
+      - name: Checkout Push Repo changes to Repo B
+        run: |
+          git push origin main
