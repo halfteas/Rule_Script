@@ -2,7 +2,7 @@ name: Sync Repo A to Repo B
 
 on:
   schedule:
-    - cron: '20 1 * * *'  # 每天午夜执行
+    - cron: '20 2 * * *'  # 每天午夜执行
 
 jobs:
   sync:
