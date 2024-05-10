@@ -19,7 +19,7 @@ jobs:
           git remote add upstream https://github.com/blackmatrix7/ios_rule_script.git
           git fetch upstream
           git checkout master
-          git merge upstream/master
+          git merge upstream/master --allow-unrelated-histories
 
       - name: Checkout Push Repo changes to Repo B
         run: |
