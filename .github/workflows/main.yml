@@ -16,6 +16,8 @@ jobs:
 
       - name: Pull Repo changes from Repo A
         run: |
+          git config --global user.email "halfteas@outlook.com"
+          git config --global user.name "halfteas"
           git remote add upstream https://github.com/blackmatrix7/ios_rule_script.git
           git fetch upstream
           git checkout master
