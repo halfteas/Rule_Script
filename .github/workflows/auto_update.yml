@@ -2,7 +2,7 @@ name: Sync Repository A to Repository B
 
 on:
   schedule:
-    - cron: '50 4 * * *' # 每天 0 点触发同步
+    - cron: '2 5 * * *' # 每天 0 点触发同步
 
 jobs:
   sync:
@@ -22,6 +22,12 @@ jobs:
         ref: master # 仓库 B 的主分支名字
         token: ${{ secrets.GITHUB_TOKEN }} # 添加 token 权限以允许 push
         
+    - name: List files in ios_rule_script directory
+      run: ls -l $GITHUB_WORKSPACE/ios_rule_script/
+      
+    - name: List files in Rule_Script directory
+      run: ls -l $GITHUB_WORKSPACE/Rule_Script/
+      
     - name: Copy files from Repository A to Repository B
       run: cp -r $GITHUB_WORKSPACE/ios_rule_script/* $GITHUB_WORKSPACE/Rule_Script/
       
