@@ -2,7 +2,7 @@ name: Sync Repository A to Repository B
 
 on:
   schedule:
-    - cron: '0 0 * * *' # 每天 0 点触发同步
+    - cron: '0 3 * * *' # 每天 0 点触发同步
 
 jobs:
   sync:
