@@ -2,7 +2,7 @@ name: Sync Repository A to Repository B
 
 on:
   schedule:
-    - cron: '0 3 * * *' # 每天 0 点触发同步
+    - cron: '0 0 * * *' # 每天 0 点触发同步
 
 jobs:
   sync:
@@ -13,12 +13,13 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: blackmatrix7/ios_rule_script
-        ref: master # 主分支名字，可修改
+        ref: master # 仓库 A 的主分支名字
         
     - name: Checkout Repository B
       uses: actions/checkout@v2
       with:
         repository: halfteas/Rule_Script
+        ref: master # 仓库 B 的主分支名字
         token: ${{ secrets.GITHUB_TOKEN }} # 添加 token 权限以允许 push
         
     - name: Copy files from Repository A to Repository B
@@ -26,8 +27,8 @@ jobs:
       
     - name: Commit and push changes
       run: |
-        git config --local user.email "halfteas@outlook.com"
-        git config --local user.name "halfteas"
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
         git add .
-        git commit -m "同步规则更新"
+        git commit -m "Sync changes from Repository A"
         git push
