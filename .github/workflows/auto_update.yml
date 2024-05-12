@@ -1,1 +1,33 @@
+name: Sync Repository A to Repository B
 
+on:
+  schedule:
+    - cron: '30 2 * * *' # 每天 0 点触发同步
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository A
+      uses: actions/checkout@v2
+      with:
+        repository: blackmatrix7/ios_rule_script
+        ref: master # 主分支名字，可修改
+        
+    - name: Checkout Repository B
+      uses: actions/checkout@v2
+      with:
+        repository: halfteas/Rule_Script
+        token: ${{ secrets.GITHUB_TOKEN }} # 添加 token 权限以允许 push
+        
+    - name: Copy files from Repository A to Repository B
+      run: cp -r ios_rule_script/* Rule_Script/
+      
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "halfteas@outlook.com"
+        git config --local user.name "halfteas"
+        git add .
+        git commit -m "同步规则更新"
+        git push
