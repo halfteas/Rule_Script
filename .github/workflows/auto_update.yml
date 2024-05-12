@@ -2,19 +2,13 @@ name: Sync Repository A to Repository B
 
 on:
   schedule:
-    - cron: '22 6 * * *' # 每天 0 点触发同步
+    - cron: '0 7 * * *' # 每天 0 点触发同步
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout Repository A
-      uses: actions/checkout@v2
-      with:
-        repository: blackmatrix7/ios_rule_script
-        ref: master # 仓库 A 的主分支名字
-        
     - name: Checkout Repository B
       uses: actions/checkout@v2
       with:
@@ -22,20 +16,14 @@ jobs:
         ref: master # 仓库 B 的主分支名字
         token: ${{ secrets.GITHUB_TOKEN }} # 添加 token 权限以允许 push
         
-    - name: List files in ios_rule_script directory
-      run: pwd $GITHUB_WORKSPACE/
-      
-    - name: List files in Rule_Script directory
-      run: ls ../../
-      
-    - name: Copy files from Repository A to Repository B
-      run: cp -r $GITHUB_WORKSPACE/ios_rule_script/* $GITHUB_WORKSPACE/Rule_Script/
+
       
     - name: Commit and push changes
       run: |
-        cd $GITHUB_WORKSPACE/Rule_Script/
+        cd $GITHUB_WORKSPACE
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add .
-        git commit -m "Sync changes from Repository A"
-        git push
+        git remote add upstream https://github.com/blackmatrix7/ios_rule_script.git 
+        git pull --rebase upstream master 
+        git push origin master
+       
