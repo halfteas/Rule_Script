@@ -23,10 +23,10 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }} # 添加 token 权限以允许 push
         
     - name: List files in ios_rule_script directory
-      run: ls -l $GITHUB_WORKSPACE/ios_rule_script/
+      run: pwd $GITHUB_WORKSPACE/
       
     - name: List files in Rule_Script directory
-      run: ls -l $GITHUB_WORKSPACE/Rule_Script/
+      run: ls ../$GITHUB_WORKSPACE/
       
     - name: Copy files from Repository A to Repository B
       run: cp -r $GITHUB_WORKSPACE/ios_rule_script/* $GITHUB_WORKSPACE/Rule_Script/
