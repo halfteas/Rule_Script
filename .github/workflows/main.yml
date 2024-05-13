@@ -1,9 +1,7 @@
 name: Sync Repo
-
 on:
   schedule:
-    - cron:  '50 1 * * *' # 每天凌晨运行
-
+    - cron: '50 1 * * *' # 每天凌晨运行
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
@@ -15,10 +13,17 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }} # 使用GitHub提供的token
         path: 'ios_rule_script'
 
+    - name: Verify current repository
+      run: |
+        if [ ! -d ".git" ]; then
+          git init
+        fi
+
     - name: Copy files to the current repo
       run: |
         cp -r ios_rule_script/* ./
         rm -rf ios_rule_script
+        ls -a
 
     - name: Commit changes
       run: |
@@ -27,4 +32,3 @@ jobs:
         git add .
         git commit -m 'Update from blackmatrix7/ios_rule_script' -a || echo "No changes to commit"
         git push
-
