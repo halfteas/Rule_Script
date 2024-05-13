@@ -1,25 +1,30 @@
-name: Sync Repo A to Repo B
+name: Sync Repo
 
 on:
   schedule:
-    - cron: '0 15 * * *'  # 每天午夜执行
+    - cron:  '50 1 * * *' # 每天凌晨运行
 
 jobs:
-  sync:
+  repo-sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo B
-        uses: actions/checkout@v2
-        with:
-          repository: 'halfteas/Rule_Script'
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Checkout target repo
+      uses: actions/checkout@v2
+      with:
+        repository: 'blackmatrix7/ios_rule_script'
+        token: ${{ secrets.GITHUB_TOKEN }} # 使用GitHub提供的token
+        path: 'ios_rule_script'
 
-      - name: Pull
-        run: |
-          git config --global user.email "halfteas@outlook.com"
-          git config --global user.name "halfteas"
-          git remote add upstream https://github.com/blackmatrix7/ios_rule_script.git
-          git pull --rebase upstream master
-      - name: Push
-        run: |
-          git push origin master
+    - name: Copy files to the current repo
+      run: |
+        cp -r ios_rule_script/* ./
+        rm -rf ios_rule_script
+
+    - name: Commit changes
+      run: |
+        git config --global user.email "GithubAction@example.com"
+        git config --global user.name "GithubAction"
+        git add .
+        git commit -m 'Update from blackmatrix7/ios_rule_script' -a || echo "No changes to commit"
+        git push
+
