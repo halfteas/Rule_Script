@@ -1,29 +1,37 @@
-name: Sync Repository A to Repository B
+name: Sync Repo
 
 on:
   schedule:
-    - cron: '0 7 * * *' # 每天 0 点触发同步
+    - cron:  '55 1 * * *' # 每天凌晨运行
 
 jobs:
-  sync:
+  repo-sync:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout Repository B
+    - name: Checkout current repo
       uses: actions/checkout@v2
       with:
-        repository: halfteas/Rule_Script
-        ref: master # 仓库 B 的主分支名字
-        token: ${{ secrets.GITHUB_TOKEN }} # 添加 token 权限以允许 push
-        
+        path: 'current_repo'
 
-      
-    - name: Commit and push changes
+    - name: Add source repo as a remote
       run: |
-        cd $GITHUB_WORKSPACE
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git remote add upstream https://github.com/blackmatrix7/ios_rule_script.git 
-        git pull --rebase upstream master 
-        git push origin master
+        cd current_repo
+        git remote add source https://github.com/blackmatrix7/ios_rule_script.git
+
+    - name: Fetch source repo changes
+      run: |
+        cd current_repo
+        git fetch source
+
+    - name: Merge or rebase source repo changes
+      run: |
+        cd current_repo
+        git merge source/main --allow-unrelated-histories -m "Merge changes from source repo" || \
+        git rebase source/main -m "Rebase changes from source repo"
+
+    - name: Push changes
+      run: |
+        cd current_repo
+        git push
+
        
