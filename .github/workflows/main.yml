@@ -1,7 +1,7 @@
 name: Sync Repo
 on:
   schedule:
-    - cron: '10 3 * * *' # 每天凌晨运行
+    - cron: '46 5 * * *' # 每天凌晨运行
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
@@ -29,6 +29,7 @@ jobs:
       run: |
         git config --global user.email "GithubAction@example.com"
         git config --global user.name "GithubAction"
+        git remote add me git@github.com:halfteas/Rule_Script.git
         git add .
         git commit -m 'Update from blackmatrix7/ios_rule_script' -a || echo "No changes to commit"
-        git push
+        git push me master
