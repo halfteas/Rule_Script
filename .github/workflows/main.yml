@@ -27,8 +27,8 @@ jobs:
 
     - name: Commit changes
       run: |
-        git config --global user.email "GithubAction@example.com"
-        git config --global user.name "GithubAction"
+        git config --global user.email "halfteas@outlook.com"
+        git config --global user.name "halfteas"
         git remote add me git@github.com:halfteas/Rule_Script.git
         git add .
         git commit -m 'Update from blackmatrix7/ios_rule_script' -a || echo "No changes to commit"
