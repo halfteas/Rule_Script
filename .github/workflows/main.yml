@@ -1,7 +1,7 @@
 name: Sync Repo
 on:
   schedule:
-    - cron: '46 5 * * *' # 每天凌晨运行
+    - cron: '5 4 * * *' # 每天凌晨运行
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
