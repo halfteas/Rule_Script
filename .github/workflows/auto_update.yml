@@ -2,7 +2,7 @@ name: Sync Repo
 
 on:
   schedule:
-    - cron:  '10 6 * * *' # 每天凌晨运行
+    - cron:  '50 6 * * *' # 每天凌晨运行
 
 jobs:
   repo-sync:
@@ -32,6 +32,8 @@ jobs:
     - name: Push changes
       run: |
         cd current_repo
+        git config --global user.email "halfteas@outlook.com"
+        git config --global user.name "halfteas"
         git push
 
        
