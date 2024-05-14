@@ -26,6 +26,8 @@ jobs:
     - name: Merge or rebase source repo changes
       run: |
         cd current_repo
+        git config --global user.email "halfteas@outlook.com"
+        git config --global user.name "halfteas"
         git merge source/master --allow-unrelated-histories -m "Merge changes from source repo" || \
         git rebase source/master -m "Rebase changes from source repo"
 
