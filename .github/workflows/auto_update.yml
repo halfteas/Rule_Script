@@ -2,7 +2,7 @@ name: Sync Repo
 
 on:
   schedule:
-    - cron:  '55 1 * * *' # 每天凌晨运行
+    - cron:  '0 4 * * *' # 每天凌晨运行
 
 jobs:
   repo-sync:
@@ -26,8 +26,8 @@ jobs:
     - name: Merge or rebase source repo changes
       run: |
         cd current_repo
-        git merge source/main --allow-unrelated-histories -m "Merge changes from source repo" || \
-        git rebase source/main -m "Rebase changes from source repo"
+        git merge source/master --allow-unrelated-histories -m "Merge changes from source repo" || \
+        git rebase source/master -m "Rebase changes from source repo"
 
     - name: Push changes
       run: |
