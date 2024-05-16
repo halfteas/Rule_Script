@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo B
+      - name: 拉取自己的仓库
         uses: actions/checkout@v2
         with:
           repository: halfteas/Rule_Script # 替换为你的仓库 B
