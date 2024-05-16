@@ -1,35 +1,37 @@
-name: Sync Repo
+name: 同步规则仓库
+
 on:
   schedule:
-    - cron: '21 7 * * *' # 每天凌晨运行
+    - cron: '32 1 * * *' # 每天凌晨 0 点触发一次，可以根据需要调整
+  workflow_dispatch: # 手动触发
+
 jobs:
-  repo-sync:
+  sync:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout target repo
-      uses: actions/checkout@v2
-      with:
-        repository: 'blackmatrix7/ios_rule_script'
-        token: ${{ secrets.GITHUB_TOKEN }} # 使用GitHub提供的token
-        path: 'ios_rule_script'
+      - name: 拉取我的仓库
+        uses: actions/checkout@v2
+        with:
+          repository: halfteas/Rule_Script # 替换为你的仓库 B
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: master
 
-    - name: Verify current repository
-      run: |
-        if [ ! -d ".git" ]; then
-          git init
-        fi
+      - name: 拉取规则仓
+        uses: actions/checkout@v2
+        with:
+          repository: blackmatrix7/ios_rule_script # 替换为仓库 A
+          path: repo-A
+          ref: master
 
-    - name: Copy files to the current repo
-      run: |
-        cp -r ios_rule_script/* ./
-        rm -rf ios_rule_script
-        ls -a
-
-    - name: Commit changes
-      run: |
-        git config --global user.email "halfteas@outlook.com"
-        git config --global user.name "halfteas"
-        git remote add me git@github.com:halfteas/Rule_Script.git
-        git add .
-        git commit -m 'Update from blackmatrix7/ios_rule_script' -a || echo "No changes to commit"
-        git push me master
+      - name: 同步到我的仓库
+        run: |
+          cd repo-A
+          git pull --rebase origin master
+          cd ..
+          rsync -av --exclude='.git' repo-A/ .
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Sync from repository A" || echo "No changes to commit"
+          git push origin master
