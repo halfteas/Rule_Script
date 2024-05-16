@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: halfteas/Rule_Script # 替换为你的仓库 B
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.SURGE_RULE_SCRIPT_UPDATE }}
 
       - name: Sync Repo A
         run: |
