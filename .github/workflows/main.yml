@@ -1,6 +1,6 @@
 
 
-name: Sync Repo A to Repo B
+name: 自动同步规则仓库
 
 on:
   schedule:
@@ -18,7 +18,7 @@ jobs:
           repository: halfteas/Rule_Script # 替换为你的仓库 B
           token: ${{ secrets.SURGE_RULE_SCRIPT_UPDATE }}
 
-      - name: Sync Repo A
+      - name: 拉取规则仓库并同步
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
