@@ -23,8 +23,8 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git remote add repoA https://github.com/blackmatrix7/ios_rule_script.git
-          git fetch repoA
-          git merge repoA/master --allow-unrelated-histories -m "sync: merge changes from repoA"
+          git pull --rebase repoA master
+          git pull --rebase origin mastar
           git push origin master
 
 
