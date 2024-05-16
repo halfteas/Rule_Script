@@ -1,37 +1,31 @@
-name: 同步规则仓库
+
+
+name: Sync Repo A to Repo B
 
 on:
   schedule:
-    - cron: '32 1 * * *' # 每天凌晨 0 点触发一次，可以根据需要调整
-  workflow_dispatch: # 手动触发
+    - cron: '0 0 * * *'  # 每天凌晨 0 点触发，可以根据需要调整时间
+  workflow_dispatch:  # 手动触发
 
 jobs:
   sync:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 拉取我的仓库
+      - name: Checkout Repo B
         uses: actions/checkout@v2
         with:
           repository: halfteas/Rule_Script # 替换为你的仓库 B
           token: ${{ secrets.GITHUB_TOKEN }}
-          ref: master
 
-      - name: 拉取规则仓
-        uses: actions/checkout@v2
-        with:
-          repository: blackmatrix7/ios_rule_script # 替换为仓库 A
-          path: repo-A
-          ref: master
-
-      - name: 同步到我的仓库
+      - name: Sync Repo A
         run: |
-          cd repo-A
-          git pull --rebase origin master
-          cd ..
-          rsync -av --exclude='.git' repo-A/ .
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Sync from repository A" || echo "No changes to commit"
+          git remote add repoA https://github.com/blackmatrix7/ios_rule_script.git
+          git fetch repoA
+          git merge repoA/master --allow-unrelated-histories -m "sync: merge changes from repoA"
           git push origin master
+
+
+          
