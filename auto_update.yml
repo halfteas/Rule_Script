@@ -1,17 +1,17 @@
 
 
-name: Merge upstream branches
-on:
-  schedule:
-    - cron:  '0 10 * * *'
-  workflow_dispatch:
-jobs:
-  merge:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Merge upstream
-        run: |
-          git remote add upstream https://github.com/blackmatrix7/ios_rule_script.git
-          git fetch upstream
-          git merge upstream/master
-          git push origin master          
+# name: Merge upstream branches
+# on:
+#   schedule:
+#     - cron:  '0 10 * * *'
+#   workflow_dispatch:
+# jobs:
+#   merge:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Merge upstream
+#         run: |
+#           git remote add upstream https://github.com/blackmatrix7/ios_rule_script.git
+#           git fetch upstream
+#           git merge upstream/master
+#           git push origin master          
